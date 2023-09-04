@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "backend",
+			"path": "backend"
+		},
+		{
+			"name": "production_note",
+			"path": "production_note"
+		}
+	],
+	"settings": {}
+}
