@@ -1,4 +1,5 @@
 import 'package:asp/asp.dart';
+import 'package:asuka/asuka.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -22,7 +23,7 @@ class _AppWidgetState extends State<AppWidget> {
       if (state is Unlogged) {
         Modular.to.navigate('/auth/login');
       } else if (state is Logged) {
-        Modular.to.navigate('/customer/');
+        Modular.to.navigate('/home/');
       }
     });
   }
@@ -31,7 +32,8 @@ class _AppWidgetState extends State<AppWidget> {
   Widget build(BuildContext context) {
     Modular.setInitialRoute('/splash');
 
-    return MaterialApp.router(
+    var materialRouter = MaterialApp.router(
+      builder: Asuka.builder,
       title: 'Snack Manager',
       themeMode: ThemeMode.light,
       theme: FlexThemeData.light(
@@ -120,5 +122,8 @@ class _AppWidgetState extends State<AppWidget> {
 
       routerConfig: Modular.routerConfig,
     );
+
+    materialRouter.navigatorObservers?.add(Asuka.asukaHeroController);
+    return materialRouter;
   }
 }

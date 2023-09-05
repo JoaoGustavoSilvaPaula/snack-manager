@@ -6,6 +6,7 @@ class MyTextFormField extends StatelessWidget {
   final String labelText;
   final void Function(String)? onChanged;
   final String initialValue;
+  final String? Function(String?)? validator;
 
   const MyTextFormField(
       {super.key,
@@ -13,7 +14,8 @@ class MyTextFormField extends StatelessWidget {
       this.onChanged,
       this.obscureText = false,
       required this.labelText,
-      this.initialValue = ""});
+      this.initialValue = "",
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class MyTextFormField extends StatelessWidget {
       obscureText: obscureText,
       enabled: !isLoading,
       onChanged: onChanged,
+      validator: validator,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         labelText: labelText,

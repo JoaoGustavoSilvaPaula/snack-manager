@@ -7,7 +7,7 @@ final globalLoaderStage = Atom(
   key: 'globalLoaderStage',
 );
 
-final globalExceptionStage = Atom<GlobalException?>(
+final globalExceptionStage = Atom<Failure?>(
   null,
   key: 'globalExceptionStage',
   pipe: interval(const Duration(seconds: 1)),

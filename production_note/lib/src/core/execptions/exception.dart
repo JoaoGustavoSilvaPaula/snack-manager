@@ -1,17 +1,38 @@
-abstract class GlobalException {
-  final String message;
-  final StackTrace? stackTrace;
+import 'package:flutter/material.dart';
 
-  const GlobalException(this.message, [this.stackTrace]);
+abstract class Failure {
+  final String errorMessage;
 
-  @override
-  String toString() {
-    var traceText = '';
-
+  Failure({
+    StackTrace? stackTrace,
+    String? label,
+    dynamic exception,
+    this.errorMessage = '',
+  }) {
     if (stackTrace != null) {
-      traceText = '\n$stackTrace';
+      debugPrintStack(label: label, stackTrace: stackTrace);
     }
-
-    return '$runtimeType: $message$traceText';
+    //ErrorReport.externalFailureError(exception, stackTrace, label);
+    //https://github.com/Bwolfs2/movie_app_monolith/blob/master/lib/app/core/error/failure.dart
   }
+}
+
+class UnknownError extends Failure {
+  @override
+  // ignore: overridden_fields
+  final String errorMessage;
+  final dynamic exception;
+  final StackTrace? stackTrace;
+  final String? label;
+
+  UnknownError({
+    this.errorMessage = 'Unknown Error',
+    this.label,
+    this.exception,
+    this.stackTrace,
+  }) : super(
+          stackTrace: stackTrace,
+          label: label,
+          exception: exception,
+        );
 }

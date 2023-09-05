@@ -1,4 +1,5 @@
 import 'package:asp/asp.dart';
+import 'package:asuka/snackbars/asuka_snack_bar.dart';
 
 import '../atoms/auth_atom.dart';
 import '../services/auth_service.dart';
@@ -28,7 +29,12 @@ class AuthReducer extends Reducer {
   _loginWithEmail() {
     authState.value = LoadingAuth();
     final dto = loginWithEmailAction.value;
-    service.loginWithEmail(dto).then(authState.setValue);
+    service.loginWithEmail(dto).then((x) => {
+          x.fold((success) => authState.setValue(success), (failure) {
+            authState.setValue(Unlogged());
+            AsukaSnackbar.alert(failure.errorMessage).show();
+          }),
+        });
   }
 
   _logout() {
@@ -39,6 +45,10 @@ class AuthReducer extends Reducer {
   _createUser() {
     authState.value = LoadingAuth();
     final dto = createUserAction.value;
-    service.createUser(dto).then(authState.setValue);
+    service.createUser(dto).then((x) => {
+          x.fold((success) => authState.setValue, (failure) {
+            Unlogged();
+          }),
+        });
   }
 }

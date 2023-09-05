@@ -14,8 +14,6 @@ class Logged implements AuthState {
 
 class Unlogged implements AuthState {}
 
-final class UnregisteredUserState implements AuthState {}
-
 final class RegisteredUserState implements AuthState {}
 
 final class RecoveryPasswordState implements AuthState {}
