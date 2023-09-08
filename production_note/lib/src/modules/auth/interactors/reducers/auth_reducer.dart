@@ -46,8 +46,9 @@ class AuthReducer extends Reducer {
     authState.value = LoadingAuth();
     final dto = createUserAction.value;
     service.createUser(dto).then((x) => {
-          x.fold((success) => authState.setValue, (failure) {
-            Unlogged();
+          x.fold((success) => authState.setValue(success), (failure) {
+            authState.setValue(Unlogged());
+            AsukaSnackbar.alert(failure.errorMessage).show();
           }),
         });
   }

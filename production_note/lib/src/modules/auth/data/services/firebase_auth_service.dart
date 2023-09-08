@@ -54,9 +54,28 @@ class FirebaseAuthService extends AuthService {
 
   @override
   AsyncResult<AuthState, AuthException> createUser(UserDto dto) async {
-    await auth.createUserWithEmailAndPassword(
-        email: dto.email, password: dto.password);
+    try {
+      await auth.createUserWithEmailAndPassword(
+          email: dto.email, password: dto.password);
 
-    return Success(await checkAuth());
+      return Success(await checkAuth());
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case ("email-already-in-use"):
+          {
+            return Failure(AuthException(
+                "E-Mail já está em uso na plataforma, tente realizar o login!"));
+          }
+        case ("weak-password"):
+          {
+            return Failure(AuthException(
+                "Senha muito fraca, tente uma senha com letras e numeros!"));
+          }
+        default:
+          {
+            return Failure(AuthException(e.message));
+          }
+      }
+    }
   }
 }
